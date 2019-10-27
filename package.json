@@ -1,0 +1,23 @@
+{
+  "name": "vanillajs",
+  "version": "1.0.0",
+  "description": "## [Github Pages Deployment](https://airbr.github.io/vanillajsapp/)",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/airbr/vanillajsapp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/airbr/vanillajsapp/issues"
+  },
+  "homepage": "https://github.com/airbr/vanillajsapp#readme",
+  "devDependencies": {
+    "typescript": "^3.6.4"
+  }
+}
