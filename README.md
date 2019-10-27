@@ -1,6 +1,6 @@
 # Vanishing Koans
 
-## [Github Pages Deployment] (https://airbr.github.io/vanillajsapp/)
+## [Github Pages Deployment](https://airbr.github.io/vanillajsapp/)
 
 #### [Based on a ES6 'vanilla.js' introduction by Jeremy Likness ](https://dev.to/jeremylikness/vanilla-js-getting-started-1e3j)
 
