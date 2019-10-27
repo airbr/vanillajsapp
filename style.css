@@ -50,3 +50,7 @@ body {
   .tooltip:hover .tooltiptext {
     visibility: visible;
   }
+
+  .highlight:hover {
+      color :red
+  }

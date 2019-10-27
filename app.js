@@ -17,6 +17,10 @@ class Wrapper {
       this.element.classList.add(className);
       return this;
     }
+    addSource(url) {
+        this.element.src = url;
+        return this;
+    }
     toggleDisplay() {
       this.display = !this.display;
       this.element.style.display = this.display ? "" : "none";
@@ -48,11 +52,9 @@ class Wrapper {
   }
   
   const renderPost = (post, user) => {
-
-    console.log(post, user);
-
     const bodyDiv = Wrapper.generate("div", "", false)
-      .createChild("p", post.body)
+      .createChild("p", post.body).addClass("highlight")
+      .appendChild(Wrapper.generate("img", "").addSource("https://via.placeholder.com/150/92c952"))
       .appendChild(Wrapper.generate("p", user.username).addClass("tooltip")
         .appendChild(Wrapper.generate("span", `${user.name} `)
           .appendChild(AnchorWrapper.generate(`mailto:${user.email}`, user.email))
@@ -93,3 +95,7 @@ class Wrapper {
   app.appendChild(Wrapper.generate("button", "Load").click(() => run({
     userIdx: {}
   })).element);
+
+  const headerPhoto = fetch('https://jsonplaceholder.typicode.com/photos/1')
+  .then(response => response.json())
+  .then(json => console.log(json))
