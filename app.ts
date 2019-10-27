@@ -63,9 +63,9 @@ class Wrapper {
       .appendChild(Wrapper.generate("img", "").addSource("https://via.placeholder.com/150/92c952"))
       .appendChild(Wrapper.generate("p", user.username).addClass("tooltip")
         .appendChild(Wrapper.generate("span", `${user.name} `)
-          .appendChild(AnchorWrapper.generate(`mailto:${user.email}`, user.email))
+          .appendChild(AnchorWrapper.generateAnchor(`mailto:${user.email}`, user.email))
           .createChild("br", "")
-          .appendChild(AnchorWrapper.generate(
+          .appendChild(AnchorWrapper.generateAnchor(
             `https://maps.google.com?q=${user.address.geo.lat}, ${user.address.geo.lng}`,
             "🌎 Locate"))
           .addClass("tooltiptext")));
