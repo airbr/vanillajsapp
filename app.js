@@ -30,7 +30,7 @@ var Wrapper = /** @class */ (function () {
         var that = this;
         window.setTimeout(function () {
             that.toggleDisplay();
-        }, 2000);
+        }, 10000);
     };
     Wrapper.prototype.showSelectable = function () {
         this.element.style.cursor = "pointer";

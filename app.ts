@@ -13,7 +13,7 @@ class Wrapper {
         var that = this;
         window.setTimeout(function () {
             that.toggleDisplay();
-        }, 2000);
+        }, 10000);
     }
     showSelectable() {
       this.element.style.cursor = "pointer";

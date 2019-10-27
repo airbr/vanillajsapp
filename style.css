@@ -3,6 +3,8 @@ body {
   }
   
   button {
+    width: 100px;
+    height: 100px;
     cursor: pointer;
     margin-top: 1em;
     padding: 1em;
@@ -54,3 +56,11 @@ body {
   .highlight:hover {
       color :red
   }
+
+  button {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%) }
