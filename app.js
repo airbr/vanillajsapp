@@ -95,6 +95,7 @@ class Wrapper {
       () => {
         model.users.forEach(user => model.userIdx[user.id] = user);
         app.innerText = '';
+        shuffleArray(model.posts);
         model.posts.forEach(post =>
           app.appendChild(renderPost(post, model.userIdx[post.userId])));
       }));
@@ -102,6 +103,13 @@ class Wrapper {
   app.appendChild(Wrapper.generate("button", "Load").click(() => run({
     userIdx: {}
   })).element);
+
+  const shuffleArray = function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+  }  
 
   const headerPhoto = fetch('https://jsonplaceholder.typicode.com/photos/1')
   .then(response => response.json())
