@@ -9,12 +9,6 @@ class Wrapper {
       this.element.addEventListener("click", () => val());
       return this;
     }
-    timer() {
-        var that = this;
-        window.setTimeout(function () {
-            that.toggleDisplay();
-        }, 10000);
-    }
     showSelectable() {
       this.element.style.cursor = "pointer";
       return this;
@@ -73,8 +67,7 @@ class Wrapper {
       .addClass("post") 
       .appendChild(Wrapper.generate("h1", `${user.username} &mdash; ${post.title}${user.company.bs}`)
         .showSelectable()
-        .click(() => bodyDiv.toggleDisplay())
-        .click(() => bodyDiv.timer()))
+        .click(() => bodyDiv.toggleDisplay()))
       .appendChild(bodyDiv)
       .element;
   };

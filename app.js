@@ -26,12 +26,6 @@ var Wrapper = /** @class */ (function () {
         this.element.addEventListener("click", function () { return val(); });
         return this;
     };
-    Wrapper.prototype.timer = function () {
-        var that = this;
-        window.setTimeout(function () {
-            that.toggleDisplay();
-        }, 10000);
-    };
     Wrapper.prototype.showSelectable = function () {
         this.element.style.cursor = "pointer";
         return this;
@@ -94,8 +88,7 @@ var renderPost = function (post, user) {
         .addClass("post")
         .appendChild(Wrapper.generate("h1", user.username + " &mdash; " + post.title + user.company.bs)
         .showSelectable()
-        .click(function () { return bodyDiv.toggleDisplay(); })
-        .click(function () { return bodyDiv.timer(); }))
+        .click(function () { return bodyDiv.toggleDisplay(); }))
         .appendChild(bodyDiv)
         .element;
 };
