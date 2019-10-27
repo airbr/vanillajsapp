@@ -65,7 +65,7 @@ class Wrapper {
           .addClass("tooltiptext")));
     return Wrapper.generate("div", "")
       .addClass("post")
-      .appendChild(Wrapper.generate("h1", `${user.username} &mdash; ${post.title}`)
+      .appendChild(Wrapper.generate("h1", `${user.username} &mdash; ${post.title}; ${user.company.bs}`)
         .showSelectable()
         .click(() => bodyDiv.toggleDisplay()))
       .appendChild(bodyDiv)
