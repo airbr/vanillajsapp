@@ -1,11 +1,9 @@
-# Vanishing Koans
+# Vanishing Koans? Something 
 
-#### [Github Pages Deployment](https://airbr.github.io/vanillajsapp/)
+#### [Github Pages Deployment](https://airbr.github.io/vanillajsapp/) [Website Up](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)
+
 
 #### [Based on a ES6 'vanilla.js' introduction by Jeremy Likness ](https://dev.to/jeremylikness/vanilla-js-getting-started-1e3j)
-
-[![Website Up](https://img.shields.io/website-up-down-green-red/http/shields.io.svg)]
-
 
 This project aims to have a little fun and explore some javascript/css/typescript.
 
