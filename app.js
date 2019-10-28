@@ -74,6 +74,15 @@ var AnchorWrapper = /** @class */ (function (_super) {
     };
     return AnchorWrapper;
 }(Wrapper));
+var renderInspirationalRandomQuote = function (quote) {
+    var quoteDiv = Wrapper.generate("div", "", true)
+        .createChild("h3", "Random Programming quote of the moment:")
+        .createChild("p", quote);
+    return Wrapper.generate("div", "")
+        .addClass("inspirationalquote")
+        .appendChild(quoteDiv)
+        .element;
+};
 var renderPost = function (post, user) {
     var bodyDiv = Wrapper.generate("div", "", false)
         .createChild("p", post.body).addClass("highlight")
@@ -100,14 +109,26 @@ var get = function (model, domain, done) {
         done();
     });
 };
+var getQuote = function (model, done) {
+    fetch('https://programming-quotes-api.herokuapp.com/quotes/random/lang/en')
+        .then(function (response) { return response.json(); })
+        .then(function (json) {
+        model.quote = json;
+        done();
+    });
+};
 var app = document.getElementById("app");
 var run = function (model) { return get(model, "users", function () {
     return get(model, "posts", function () {
-        model.users.forEach(function (user) { return model.userIdx[user.id] = user; });
-        app.innerText = '';
-        shuffleArray(model.posts);
-        model.posts.forEach(function (post) {
-            return app.appendChild(renderPost(post, model.userIdx[post.userId]));
+        getQuote(model, function () {
+            // console.log(model.quote.en);
+            model.users.forEach(function (user) { return model.userIdx[user.id] = user; });
+            app.innerText = '';
+            shuffleArray(model.posts);
+            app.appendChild(renderInspirationalRandomQuote(model.quote.en));
+            model.posts.forEach(function (post) {
+                return app.appendChild(renderPost(post, model.userIdx[post.userId]));
+            });
         });
     });
 }); };
@@ -122,6 +143,6 @@ var shuffleArray = function shuffleArray(array) {
         _a = [array[j], array[i]], array[i] = _a[0], array[j] = _a[1];
     }
 };
-var headerPhoto = fetch('https://jsonplaceholder.typicode.com/photos/1')
-    .then(function (response) { return response.json(); })
-    .then(function (json) { return console.log(json); });
+// const headerPhoto = fetch('https://jsonplaceholder.typicode.com/photos/1')
+// .then(response => response.json())
+// .then(json => console.log(json))

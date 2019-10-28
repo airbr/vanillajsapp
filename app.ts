@@ -50,7 +50,17 @@ class Wrapper {
       return new AnchorWrapper(href, text, target);
     }
   }
-  
+
+  const renderInspirationalRandomQuote = (quote) => {
+    const quoteDiv = Wrapper.generate("div", "", true)
+      .createChild("h3", "Random Programming quote of the moment:" )
+      .createChild("p", quote)
+    return Wrapper.generate("div", "")
+      .addClass("inspirationalquote") 
+      .appendChild(quoteDiv)
+      .element;
+  };
+
   const renderPost = (post, user) => {
     const bodyDiv = Wrapper.generate("div", "", false)
       .createChild("p", post.body).addClass("highlight")
@@ -80,17 +90,30 @@ class Wrapper {
         done();
       });
   };
-  
+
+  const getQuote = (model, done) => {
+    fetch('https://programming-quotes-api.herokuapp.com/quotes/random/lang/en')
+      .then(response => response.json())
+      .then(json => {
+        model.quote = json;
+        done();
+      });
+  };
+
   const app = document.getElementById("app");
   
   const run = (model) => get(model, "users", () =>
     get(model, "posts",
       () => {
-        model.users.forEach(user => model.userIdx[user.id] = user);
-        app.innerText = '';
-        shuffleArray(model.posts);
-        model.posts.forEach(post =>
-          app.appendChild(renderPost(post, model.userIdx[post.userId])));
+        getQuote(model, () => {
+          // console.log(model.quote.en);
+          model.users.forEach(user => model.userIdx[user.id] = user);
+          app.innerText = '';
+          shuffleArray(model.posts);
+          app.appendChild(renderInspirationalRandomQuote(model.quote.en));  
+          model.posts.forEach(post =>
+            app.appendChild(renderPost(post, model.userIdx[post.userId])));
+        });
       }));
   
   app.appendChild(Wrapper.generate("button", "Load").click(() => run({
@@ -105,9 +128,9 @@ class Wrapper {
     }
   }  
 
-  const headerPhoto = fetch('https://jsonplaceholder.typicode.com/photos/1')
-  .then(response => response.json())
-  .then(json => console.log(json))
+  // const headerPhoto = fetch('https://jsonplaceholder.typicode.com/photos/1')
+  // .then(response => response.json())
+  // .then(json => console.log(json))
 
 
  
