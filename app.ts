@@ -92,7 +92,7 @@ class Wrapper {
   };
 
   const getQuote = (model, done) => {
-    fetch('https://programming-quotes-api.herokuapp.com/quotes/random/lang/en')
+    fetch('https://programming-quotes-api.herokuapp.com/Quotes/random')
       .then(response => response.json())
       .then(json => {
         model.quote = json;

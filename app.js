@@ -2,10 +2,12 @@ var __extends = (this && this.__extends) || (function () {
     var extendStatics = function (d, b) {
         extendStatics = Object.setPrototypeOf ||
             ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
         return extendStatics(d, b);
     };
     return function (d, b) {
+        if (typeof b !== "function" && b !== null)
+            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
         extendStatics(d, b);
         function __() { this.constructor = d; }
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
@@ -88,21 +90,21 @@ var renderPost = function (post, user) {
         .createChild("p", post.body).addClass("highlight")
         .appendChild(Wrapper.generate("img", "").addSource("https://via.placeholder.com/150/92c952"))
         .appendChild(Wrapper.generate("p", user.username).addClass("tooltip")
-        .appendChild(Wrapper.generate("span", user.name + " ")
-        .appendChild(AnchorWrapper.generateAnchor("mailto:" + user.email, user.email))
+        .appendChild(Wrapper.generate("span", "".concat(user.name, " "))
+        .appendChild(AnchorWrapper.generateAnchor("mailto:".concat(user.email), user.email))
         .createChild("br", "")
-        .appendChild(AnchorWrapper.generateAnchor("https://maps.google.com?q=" + user.address.geo.lat + ", " + user.address.geo.lng, "🌎 Locate"))
+        .appendChild(AnchorWrapper.generateAnchor("https://maps.google.com?q=".concat(user.address.geo.lat, ", ").concat(user.address.geo.lng), "🌎 Locate"))
         .addClass("tooltiptext")));
     return Wrapper.generate("div", "")
         .addClass("post")
-        .appendChild(Wrapper.generate("h1", user.username + " &mdash; " + post.title + user.company.bs)
+        .appendChild(Wrapper.generate("h1", "".concat(user.username, " &mdash; ").concat(post.title).concat(user.company.bs))
         .showSelectable()
         .click(function () { return bodyDiv.toggleDisplay(); }))
         .appendChild(bodyDiv)
         .element;
 };
 var get = function (model, domain, done) {
-    fetch("https://jsonplaceholder.typicode.com/" + domain)
+    fetch("https://jsonplaceholder.typicode.com/".concat(domain))
         .then(function (response) { return response.json(); })
         .then(function (json) {
         model[domain] = json;
@@ -110,7 +112,7 @@ var get = function (model, domain, done) {
     });
 };
 var getQuote = function (model, done) {
-    fetch('https://programming-quotes-api.herokuapp.com/quotes/random/lang/en')
+    fetch('https://programming-quotes-api.herokuapp.com/Quotes/random')
         .then(function (response) { return response.json(); })
         .then(function (json) {
         model.quote = json;
