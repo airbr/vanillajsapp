@@ -4,9 +4,6 @@
 
 #### [Based on a ES6 'vanilla.js' introduction by Jeremy Likness ](https://dev.to/jeremylikness/vanilla-js-getting-started-1e3j)
 
-This project aims to have a little fun and explore some javascript/css/typescript.
+This project aims to have a little fun and explore some javascript/typescript.
 
-The original app from the tutorial fetches a list of posts by user with some functionality to toggle display. 
-
-My idea is to transform this app to one that fetches poems or Koans that vanish after a set amount of time. Looking at public API's now.
-
+This simple app fetches a list of quotes about programming from this [API](https://programming-quotes-api.herokuapp.com/).

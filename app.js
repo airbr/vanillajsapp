@@ -85,24 +85,6 @@ var renderInspirationalRandomQuote = function (quote) {
         .appendChild(quoteDiv)
         .element;
 };
-var renderPost = function (post, user) {
-    var bodyDiv = Wrapper.generate("div", "", false)
-        .createChild("p", post.body).addClass("highlight")
-        .appendChild(Wrapper.generate("img", "").addSource("https://via.placeholder.com/150/92c952"))
-        .appendChild(Wrapper.generate("p", user.username).addClass("tooltip")
-        .appendChild(Wrapper.generate("span", "".concat(user.name, " "))
-        .appendChild(AnchorWrapper.generateAnchor("mailto:".concat(user.email), user.email))
-        .createChild("br", "")
-        .appendChild(AnchorWrapper.generateAnchor("https://maps.google.com?q=".concat(user.address.geo.lat, ", ").concat(user.address.geo.lng), "🌎 Locate"))
-        .addClass("tooltiptext")));
-    return Wrapper.generate("div", "")
-        .addClass("post")
-        .appendChild(Wrapper.generate("h1", "".concat(user.username, " &mdash; ").concat(post.title).concat(user.company.bs))
-        .showSelectable()
-        .click(function () { return bodyDiv.toggleDisplay(); }))
-        .appendChild(bodyDiv)
-        .element;
-};
 var get = function (model, domain, done) {
     fetch("https://jsonplaceholder.typicode.com/".concat(domain))
         .then(function (response) { return response.json(); })
@@ -112,39 +94,21 @@ var get = function (model, domain, done) {
     });
 };
 var getQuote = function (model, done) {
-    fetch('https://programming-quotes-api.herokuapp.com/Quotes/random')
+    fetch('https://programming-quotes-api.herokuapp.com/Quotes?count=20')
         .then(function (response) { return response.json(); })
         .then(function (json) {
-        model.quote = json;
+        model.quotes = json;
         done();
     });
 };
 var app = document.getElementById("app");
-var run = function (model) { return get(model, "users", function () {
-    return get(model, "posts", function () {
-        getQuote(model, function () {
-            // console.log(model.quote.en);
-            model.users.forEach(function (user) { return model.userIdx[user.id] = user; });
-            app.innerText = '';
-            shuffleArray(model.posts);
-            app.appendChild(renderInspirationalRandomQuote(model.quote.en));
-            model.posts.forEach(function (post) {
-                return app.appendChild(renderPost(post, model.userIdx[post.userId]));
-            });
-        });
+var run = function (model) { return getQuote(model, function () {
+    model.users.forEach(function (user) { return model.userIdx[user.id] = user; });
+    app.innerText = '';
+    model.quotes.forEach(function (quote) {
+        return app.appendChild(renderInspirationalRandomQuote(quote.en));
     });
 }); };
 app.appendChild(Wrapper.generate("button", "Load").click(function () { return run({
     userIdx: {}
 }); }).element);
-// https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
-var shuffleArray = function shuffleArray(array) {
-    var _a;
-    for (var i = array.length - 1; i > 0; i--) {
-        var j = Math.floor(Math.random() * (i + 1));
-        _a = [array[j], array[i]], array[i] = _a[0], array[j] = _a[1];
-    }
-};
-// const headerPhoto = fetch('https://jsonplaceholder.typicode.com/photos/1')
-// .then(response => response.json())
-// .then(json => console.log(json))

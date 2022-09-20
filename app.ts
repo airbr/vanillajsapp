@@ -61,27 +61,6 @@ class Wrapper {
       .element;
   };
 
-  const renderPost = (post, user) => {
-    const bodyDiv = Wrapper.generate("div", "", false)
-      .createChild("p", post.body).addClass("highlight")
-      .appendChild(Wrapper.generate("img", "").addSource("https://via.placeholder.com/150/92c952"))
-      .appendChild(Wrapper.generate("p", user.username).addClass("tooltip")
-        .appendChild(Wrapper.generate("span", `${user.name} `)
-          .appendChild(AnchorWrapper.generateAnchor(`mailto:${user.email}`, user.email))
-          .createChild("br", "")
-          .appendChild(AnchorWrapper.generateAnchor(
-            `https://maps.google.com?q=${user.address.geo.lat}, ${user.address.geo.lng}`,
-            "🌎 Locate"))
-          .addClass("tooltiptext")));
-    return Wrapper.generate("div", "")
-      .addClass("post") 
-      .appendChild(Wrapper.generate("h1", `${user.username} &mdash; ${post.title}${user.company.bs}`)
-        .showSelectable()
-        .click(() => bodyDiv.toggleDisplay()))
-      .appendChild(bodyDiv)
-      .element;
-  };
-  
   const get = (model, domain, done) => {
     fetch(`https://jsonplaceholder.typicode.com/${domain}`)
       .then(response => response.json())
@@ -92,45 +71,26 @@ class Wrapper {
   };
 
   const getQuote = (model, done) => {
-    fetch('https://programming-quotes-api.herokuapp.com/Quotes/random')
+    fetch('https://programming-quotes-api.herokuapp.com/Quotes?count=20')
       .then(response => response.json())
       .then(json => {
-        model.quote = json;
+        model.quotes = json;
         done();
       });
   };
 
   const app = document.getElementById("app");
   
-  const run = (model) => get(model, "users", () =>
-    get(model, "posts",
-      () => {
-        getQuote(model, () => {
-          // console.log(model.quote.en);
-          model.users.forEach(user => model.userIdx[user.id] = user);
-          app.innerText = '';
-          shuffleArray(model.posts);
-          app.appendChild(renderInspirationalRandomQuote(model.quote.en));  
-          model.posts.forEach(post =>
-            app.appendChild(renderPost(post, model.userIdx[post.userId])));
-        });
-      }));
+  const run = (model) => getQuote(model, () => {
+      model.users.forEach(user => model.userIdx[user.id] = user);
+      app.innerText = '';
+        model.quotes.forEach(quote =>
+          app.appendChild(renderInspirationalRandomQuote(quote.en))); 
+    });
   
   app.appendChild(Wrapper.generate("button", "Load").click(() => run({
     userIdx: {}
   })).element);
-
-  // https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array
-  const shuffleArray = function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-  }  
-
-  // const headerPhoto = fetch('https://jsonplaceholder.typicode.com/photos/1')
-  // .then(response => response.json())
-  // .then(json => console.log(json))
 
 
  
