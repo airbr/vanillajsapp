@@ -22,6 +22,11 @@ body {
   p {
     margin-left: 2em;
   }
+
+  .inspirationalquote {
+    background-color: wheat;
+    padding: 20px;
+  }
   
   button {
     margin: 0;

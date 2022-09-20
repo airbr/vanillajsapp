@@ -35,28 +35,27 @@ class Wrapper {
       this.appendChild(wrapper);
       return this;
     }
-    static generate(element, text, display = true) {
+    static generate(element, text = "", display = true) {
       return new Wrapper(element, text, display);
     }
+    disappear(){
+      var that = this;
+      setTimeout(function () {
+          that.toggleDisplay();
+      }, 3500 * Math.random());
+      return this;
+    }
+
   }
   
-  class AnchorWrapper extends Wrapper {
-    constructor(href, text, target = "_blank") {
-      super("a", text);
-      this.element.href = href;
-      this.element.target = target;
-    }
-    static generateAnchor(href, text, target = "_blank") {
-      return new AnchorWrapper(href, text, target);
-    }
-  }
-
   const renderInspirationalRandomQuote = (quote) => {
     const quoteDiv = Wrapper.generate("div", "", true)
-      .createChild("h3", "Random Programming quote of the moment:" )
-      .createChild("p", quote)
-    return Wrapper.generate("div", "")
+      .createChild("h2", quote.en)
+      .createChild("p", quote.author)
+    return Wrapper.generate("div")
+      .disappear()
       .addClass("inspirationalquote") 
+      .click(() => quoteDiv.toggleDisplay())
       .appendChild(quoteDiv)
       .element;
   };
@@ -80,16 +79,17 @@ class Wrapper {
   };
 
   const app = document.getElementById("app");
-  
+  const end = document.getElementById("end");
+
+
   const run = (model) => getQuote(model, () => {
-      model.users.forEach(user => model.userIdx[user.id] = user);
-      app.innerText = '';
-        model.quotes.forEach(quote =>
-          app.appendChild(renderInspirationalRandomQuote(quote.en))); 
-    });
+    app.innerText = '';
+    model.quotes.forEach(quote =>
+    app.appendChild(renderInspirationalRandomQuote(quote))); 
+    end.style.display = "block"; 
+  });
   
   app.appendChild(Wrapper.generate("button", "Load").click(() => run({
-    userIdx: {}
   })).element);
 
 

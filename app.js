@@ -1,18 +1,3 @@
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
-    };
-    return function (d, b) {
-        if (typeof b !== "function" && b !== null)
-            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
 var Wrapper = /** @class */ (function () {
     function Wrapper(element, text, display) {
         if (display === void 0) { display = true; }
@@ -56,32 +41,27 @@ var Wrapper = /** @class */ (function () {
         return this;
     };
     Wrapper.generate = function (element, text, display) {
+        if (text === void 0) { text = ""; }
         if (display === void 0) { display = true; }
         return new Wrapper(element, text, display);
     };
+    Wrapper.prototype.disappear = function () {
+        var that = this;
+        setTimeout(function () {
+            that.toggleDisplay();
+        }, 3500 * Math.random());
+        return this;
+    };
     return Wrapper;
 }());
-var AnchorWrapper = /** @class */ (function (_super) {
-    __extends(AnchorWrapper, _super);
-    function AnchorWrapper(href, text, target) {
-        if (target === void 0) { target = "_blank"; }
-        var _this = _super.call(this, "a", text) || this;
-        _this.element.href = href;
-        _this.element.target = target;
-        return _this;
-    }
-    AnchorWrapper.generateAnchor = function (href, text, target) {
-        if (target === void 0) { target = "_blank"; }
-        return new AnchorWrapper(href, text, target);
-    };
-    return AnchorWrapper;
-}(Wrapper));
 var renderInspirationalRandomQuote = function (quote) {
     var quoteDiv = Wrapper.generate("div", "", true)
-        .createChild("h3", "Random Programming quote of the moment:")
-        .createChild("p", quote);
-    return Wrapper.generate("div", "")
+        .createChild("h2", quote.en)
+        .createChild("p", quote.author);
+    return Wrapper.generate("div")
+        .disappear()
         .addClass("inspirationalquote")
+        .click(function () { return quoteDiv.toggleDisplay(); })
         .appendChild(quoteDiv)
         .element;
 };
@@ -102,13 +82,12 @@ var getQuote = function (model, done) {
     });
 };
 var app = document.getElementById("app");
+var end = document.getElementById("end");
 var run = function (model) { return getQuote(model, function () {
-    model.users.forEach(function (user) { return model.userIdx[user.id] = user; });
     app.innerText = '';
     model.quotes.forEach(function (quote) {
-        return app.appendChild(renderInspirationalRandomQuote(quote.en));
+        return app.appendChild(renderInspirationalRandomQuote(quote));
     });
+    end.style.display = "block";
 }); };
-app.appendChild(Wrapper.generate("button", "Load").click(function () { return run({
-    userIdx: {}
-}); }).element);
+app.appendChild(Wrapper.generate("button", "Load").click(function () { return run({}); }).element);
