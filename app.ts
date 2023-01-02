@@ -70,7 +70,7 @@ class Wrapper {
   };
 
   const getQuote = (model, done) => {
-    fetch('https://programming-quotes-api.herokuapp.com/Quotes?count=20')
+    fetch('https://api.github.com/users/airbr/repos')
       .then(response => response.json())
       .then(json => {
         model.quotes = json;

@@ -1,3 +1,4 @@
+"use strict";
 var Wrapper = /** @class */ (function () {
     function Wrapper(element, text, display) {
         if (display === void 0) { display = true; }
@@ -74,7 +75,7 @@ var get = function (model, domain, done) {
     });
 };
 var getQuote = function (model, done) {
-    fetch('https://programming-quotes-api.herokuapp.com/Quotes?count=20')
+    fetch('https://api.github.com/users/airbr/repos')
         .then(function (response) { return response.json(); })
         .then(function (json) {
         model.quotes = json;
